@@ -1,0 +1,45 @@
+# Dependencies
+node_modules
+package-lock.json
+
+# Build output
+dist
+
+# ---------------------------------------------------------------
+# Secrets — never commit
+# ---------------------------------------------------------------
+# config.env holds the Supabase service_role key (bypasses RLS) and the Yotta
+# API key. .env.local holds the Supabase URL and anon key. Both stay local;
+# config.env.example documents the shape instead.
+.env
+.env.*
+!.env.example
+server/config.env
+!server/config.env.example
+
+# Local data store (contains uploaded document text)
+server/local_data/
+
+# Python virtualenvs. server/.env is a venv directory, not an env file —
+# unfortunate name, matched by the .env rule above but listed for clarity.
+server/.venv/
+server/.env/
+venv_streamlit/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Trained model artifacts. The stray root-level copy is excluded, but the
+# server's model is kept (2MB) so the repo runs without a training pass.
+*.pkl
+!server/rf_model.pkl
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Editor backups
+*.bak

@@ -1,0 +1,308 @@
+/*
+ * HUD theme layer for the Traditional-vs-QUBO comparison panel.
+ *
+ * Imported after Workspace.css so these rules win on the shared selectors. Kept
+ * in its own file so the theme can be dropped without touching the panel's
+ * layout CSS.
+ *
+ * The panel is the point of the product, so it reads as an instrument: cyan is
+ * the optimized path, amber the baseline, and every figure is set in tabular
+ * monospace so digits line up when values change between queries.
+ */
+
+.rag-comparison-panel {
+  position: relative;
+  margin: 18px 24px;
+  padding: 22px 24px 20px;
+  border-radius: 18px;
+  background:
+    radial-gradient(120% 100% at 50% 0%, rgba(34, 211, 238, 0.07), transparent 62%),
+    linear-gradient(160deg, rgba(8, 13, 28, 0.96), rgba(6, 10, 22, 0.94));
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  box-shadow:
+    0 26px 70px rgba(2, 6, 18, 0.6),
+    inset 0 1px 0 rgba(148, 233, 250, 0.08);
+  overflow: hidden;
+}
+
+/* Hairline grid, kept faint so it never competes with the numbers. */
+.rag-comparison-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.05) 1px, transparent 1px);
+  background-size: 30px 30px;
+  mask-image: radial-gradient(120% 90% at 50% 0%, rgba(0, 0, 0, 0.6), transparent 70%);
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 0%, rgba(0, 0, 0, 0.6), transparent 70%);
+}
+
+/* Top edge highlight — the "active readout" cue. */
+.rag-comparison-panel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(34, 211, 238, 0.55),
+    transparent
+  );
+}
+
+.rag-comparison-header {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(34, 211, 238, 0.14);
+}
+
+.rag-comparison-header h4 {
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(180, 240, 252, 0.9);
+}
+
+/* Replace the lightning emoji with a pulsing status lamp. */
+.rag-comparison-header h4::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: #22d3ee;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.9);
+  animation: hud-lamp 1.8s ease-in-out infinite;
+}
+
+@keyframes hud-lamp {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* Solver attribution: quiet, monospace, never competes with the metrics. */
+.rag-solver-readout {
+  margin-left: auto;
+  margin-right: 12px;
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
+  color: rgba(148, 233, 250, 0.5);
+  white-space: nowrap;
+}
+
+.rag-comparison-close {
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.18);
+  color: rgba(180, 240, 252, 0.75);
+}
+
+.rag-comparison-close:hover {
+  background: rgba(34, 211, 238, 0.16);
+  border-color: rgba(34, 211, 238, 0.35);
+  color: #eafcff;
+}
+
+.rag-comparison-grid {
+  position: relative;
+  z-index: 1;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.rag-comparison-column {
+  position: relative;
+  padding: 16px 16px 14px;
+  border-radius: 14px;
+  background: rgba(3, 7, 18, 0.6);
+  border: 1px solid rgba(148, 233, 250, 0.1);
+}
+
+/* Corner bracket, drawn on the accent side of each column. */
+.rag-comparison-column::before {
+  content: '';
+  position: absolute;
+  top: 9px;
+  width: 14px;
+  height: 14px;
+  opacity: 0.8;
+}
+
+/* Baseline path: amber. */
+.rag-comparison-column.traditional {
+  background: rgba(9, 7, 4, 0.55);
+  border-color: rgba(245, 158, 11, 0.26);
+}
+
+.rag-comparison-column.traditional::before {
+  left: 9px;
+  border-left: 1px solid rgba(245, 158, 11, 0.6);
+  border-top: 1px solid rgba(245, 158, 11, 0.6);
+}
+
+/* Optimized path: cyan, and slightly lifted so the eye lands here. */
+.rag-comparison-column.qubo {
+  background: rgba(3, 12, 20, 0.66);
+  border-color: rgba(34, 211, 238, 0.32);
+  box-shadow:
+    0 0 0 1px rgba(34, 211, 238, 0.06),
+    0 16px 40px rgba(34, 211, 238, 0.07);
+}
+
+.rag-comparison-column.qubo::before {
+  right: 9px;
+  border-right: 1px solid rgba(34, 211, 238, 0.7);
+  border-top: 1px solid rgba(34, 211, 238, 0.7);
+}
+
+.rag-comparison-column-header {
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed rgba(148, 233, 250, 0.12);
+}
+
+.rag-comparison-column.traditional .rag-comparison-column-header {
+  color: rgba(252, 211, 77, 0.92);
+}
+
+.rag-comparison-column.qubo .rag-comparison-column-header {
+  color: rgba(103, 232, 249, 0.95);
+}
+
+.rag-stat {
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: rgba(148, 233, 250, 0.035);
+  border: 1px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.rag-stat:hover {
+  background: rgba(148, 233, 250, 0.07);
+  border-color: rgba(148, 233, 250, 0.12);
+}
+
+.rag-stat-label {
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(165, 195, 220, 0.68);
+}
+
+/* Tabular figures so digits don't shift as values update per query. */
+.rag-stat-value {
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.01em;
+  color: #eafcff;
+}
+
+.rag-comparison-column.qubo .rag-stat-value {
+  color: #7ff0ff;
+  text-shadow: 0 0 14px rgba(34, 211, 238, 0.35);
+}
+
+.rag-comparison-column.traditional .rag-stat-value {
+  color: #ffe6ad;
+}
+
+/* Summary chips: the three deltas that matter. */
+.rag-comparison-summary {
+  position: relative;
+  z-index: 1;
+  gap: 14px;
+}
+
+.rag-summary-card,
+.rag-comparison-summary > div {
+  border-radius: 12px;
+  background: linear-gradient(150deg, rgba(34, 211, 238, 0.1), rgba(34, 211, 238, 0.03));
+  border: 1px solid rgba(34, 211, 238, 0.22);
+}
+
+.rag-comparison-summary .rag-summary-label,
+.rag-comparison-summary strong {
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.rag-comparison-verdict {
+  position: relative;
+  z-index: 1;
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-family: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  color: #061318;
+  background: linear-gradient(90deg, rgba(34, 211, 238, 0.92), rgba(94, 234, 212, 0.92));
+  box-shadow: 0 12px 34px rgba(34, 211, 238, 0.22);
+}
+
+/* A verdict is a statement of what happened, so it is styled by what happened.
+   Only a genuine improvement gets the celebratory treatment; a token/relevance
+   trade is amber and a non-result is grey. A green banner over a relevance drop
+   is the exact failure this panel had. */
+.rag-comparison-verdict.is-tradeoff {
+  color: #1b1206;
+  background: linear-gradient(90deg, rgba(251, 191, 36, 0.92), rgba(253, 224, 71, 0.92));
+  box-shadow: 0 12px 34px rgba(251, 191, 36, 0.2);
+}
+
+.rag-comparison-verdict.is-neutral {
+  color: rgba(226, 244, 250, 0.9);
+  background: rgba(148, 163, 184, 0.16);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: none;
+}
+
+.rag-verdict-note {
+  position: relative;
+  z-index: 1;
+  margin: 10px 2px 0;
+  font-size: 11px;
+  line-height: 1.55;
+  color: rgba(186, 230, 253, 0.62);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rag-comparison-panel,
+  .rag-comparison-header h4::before {
+    animation: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .rag-comparison-panel {
+    margin: 14px 12px;
+    padding: 18px 16px 16px;
+  }
+}
+
+
+/* A downward relevance move is amber, same language as the tradeoff banner:
+   visible and honest, but not styled as an error -- dropping duplicates for
+   diverse chunks is the redundancy term working as designed. */
+.rag-savings-down {
+  color: #fbbf24;
+}

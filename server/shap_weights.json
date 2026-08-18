@@ -1,0 +1,11 @@
+{
+  "threshold_high": 0.90,
+  "penalty_high": 0.90,
+  "threshold_med": 0.70,
+  "penalty_med": 0.30,
+  "derived_via": "SHAP + Grid Search + LLM-as-Judge",
+  "win_score": 30,
+  "max_possible": 40,
+  "num_test_queries": 20
+}
+
