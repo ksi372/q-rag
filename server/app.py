@@ -46,10 +46,21 @@ app = FastAPI(
     version="1.1.0"
 )
 
-# CORS configuration
+# CORS configuration.
+#
+# Hardcoding localhost meant any deployed frontend was rejected by the browser
+# before a request ever reached a route -- and the failure surfaces as an opaque
+# network error, not a readable 403. Origins are therefore configurable:
+# CORS_ORIGINS is a comma-separated list, and the local dev origins stay in the
+# default so nothing changes when running on a laptop.
+_DEFAULT_ORIGINS = "http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173"
+CORS_ORIGINS = [
+    o.strip() for o in (os.getenv("CORS_ORIGINS") or _DEFAULT_ORIGINS).split(",") if o.strip()
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000", "http://127.0.0.1:5173"],
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

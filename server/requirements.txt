@@ -30,3 +30,8 @@ huggingface-hub>=0.26.0
 # CORS
 starlette>=0.27.0
 
+# QUBO solver. Without these the annealer silently falls back to the pure-NumPy
+# Metropolis implementation in qubo.py -- correct, but slower and not the code
+# path the results were measured on.
+dwave-neal>=0.6.0
+dimod>=0.12.0
